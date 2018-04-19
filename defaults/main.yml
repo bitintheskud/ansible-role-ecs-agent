@@ -1,0 +1,15 @@
+---
+# defaults file for centos-ecs-agent
+# Based on a subset of options available at :
+# http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
+
+ecs_agent_loglevel: info
+ecs_agent_cluster_name: default
+ecs_agent_data_dir: "/data"
+ecs_agent_log_file: "/log/ecs_agent.log"
+ecs_agent_enable_iam_role: true
+ecs_agent_enable_task_iam_role_network_host: true
+ecs_agent_reserved_ports: "[22, 2375, 2376, 51678]"
+ecs_agent_container_stop_timeout: 30s
+ecs_agent_auth_type: ""
+ecs_agent_auth_data: ""

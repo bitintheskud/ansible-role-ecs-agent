@@ -1,0 +1,68 @@
+---
+# Based on the instructions at https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-install.html
+
+- name: Allow the port proxy to route traffic using loopback addresses
+  sysctl:
+    name: net.ipv4.conf.all.route_localnet
+    value: 1
+    sysctl_set: yes
+
+
+# enable IAM roles for tasks
+# iptables -t nat -A PREROUTING -p tcp -d 169.254.170.2 --dport 80 -j DNAT --to-destination 127.0.0.1:51679
+# iptables -t nat -A OUTPUT -d 169.254.170.2 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 51679
+
+- name: Enable IAM roles for tasks (1)
+  iptables:
+    table: nat
+    chain: PREROUTING
+    destination: 169.254.170.2
+    destination_port: 80
+    protocol: tcp
+    jump: DNAT
+    to_destination: 127.0.0.1:51679
+
+- name: Enable IAM roles for tasks (2)
+  iptables:
+    table: nat
+    chain: OUTPUT
+    destination: 169.254.170.2
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: REDIRECT
+    to_ports: 51679
+
+- name: Create ecs configuration directory
+  file:
+    path: /etc/ecs
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Create ecs environment file
+  template:
+    src=ecs.j2
+    dest=/etc/ecs.config
+    owner=root
+    group=root
+    mode=0644
+
+- name: Copy systemd configuration file for container agent
+  copy:
+    src: docker-container@ecs-agent.service
+    dest: /etc/systemd/system/docker-container@ecs-agent.service
+    owner: root
+    group: root
+    mode: 0755
+    backup: no
+
+- name: Reload systemd configuration
+  shell: systemctl daemon-reload
+
+- name: Start and enable the ecs container service
+  service: ecs-agent
+  state: started
+  enabled: True
+

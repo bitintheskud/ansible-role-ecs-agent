@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Alban MUSSI
+  description: "Deploy AWS ECS Agent on CentOS 7"
+  license: MIT
+  min_ansible_version: 2.2
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+    - amazon
+    - aws
+    - ecs
+    - agent
+    - docker
+    - container
+    - centos
+
+dependencies:
+  - { role: 'bitintheskud.ansible-role-docker-ce'}
