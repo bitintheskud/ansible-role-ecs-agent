@@ -35,16 +35,16 @@
 
 - name: Create ecs directory (volume)
   file:
-    path: {{ item }}
+    path: "{{ item }}"
     state: directory
     mode: 0755
     owner: root
     group: root
     recurse: yes
   with_items:
-    - /etc/ecs
-    - /var/log/ecs
-    - /var/lib/ecs/data
+    - "/etc/ecs"
+    - "/var/log/ecs"
+    - "/var/lib/ecs/data"
 
 - name: Create ecs environment file
   template:
@@ -67,7 +67,8 @@
   shell: systemctl daemon-reload
 
 - name: Start and enable the ecs container service
-  service: docker-container@ecs-agent.service
-  state: started
-  enabled: True
+  service:
+    name: docker-container@ecs-agent.service
+    state: started
+    enabled: True
 
