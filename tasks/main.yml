@@ -33,18 +33,23 @@
     jump: REDIRECT
     to_ports: 51679
 
-- name: Create ecs configuration directory
+- name: Create ecs directory (volume)
   file:
-    path: /etc/ecs
+    path: {{ item }}
     state: directory
     mode: 0755
     owner: root
     group: root
+    recurse: yes
+  with_items:
+    - /etc/ecs
+    - /var/log/ecs
+    - /var/lib/ecs/data
 
 - name: Create ecs environment file
   template:
     src=ecs.j2
-    dest=/etc/ecs.config
+    dest=/etc/ecs/ecs.config
     owner=root
     group=root
     mode=0644
@@ -62,7 +67,7 @@
   shell: systemctl daemon-reload
 
 - name: Start and enable the ecs container service
-  service: ecs-agent
+  service: docker-container@ecs-agent.service
   state: started
   enabled: True
 
