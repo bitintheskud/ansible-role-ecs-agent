@@ -18,5 +18,5 @@ galaxy_info:
     - container
     - centos
 
-dependencies:
-  - { role: 'bitintheskud.ansible-role-docker-ce'}
+#dependencies:
+#  - { role: 'ansible-role-docker-ce-centos'}
