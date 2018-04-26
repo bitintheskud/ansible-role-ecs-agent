@@ -45,6 +45,11 @@ See :
   roles:
     - ansible-role-ecs-agent
 ```
+## To improve in next version
+
+- Add travis build.
+- Add support for log driver. See: https://github.com/open-guides/og-aws#ecs-tips
+- Add support for cleaning options. See: https://github.com/open-guides/og-aws#ecs-tips
 
 ## License
 
