@@ -49,7 +49,24 @@ See :
 
 - Add travis build.
 - Add support for log driver. See: https://github.com/open-guides/og-aws#ecs-tips
-- Add support for cleaning options. See: https://github.com/open-guides/og-aws#ecs-tips
+- Add support for cleaning options :
+
+**ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION**
+This variable specifies the time to wait before removing any containers that belong to stopped tasks. The image cleanup process cannot delete an image as long as there is a container that references it. After images are not referenced by any containers (either stopped or running), then the image becomes a candidate for cleanup. By default, this parameter is set to 3 hours but you can reduce this period to as low as 1 minute, if you need to for your application.
+
+**ECS_DISABLE_IMAGE_CLEANUP**
+If you set this variable to true, then automated image cleanup is disabled on your container instance and no images are automatically removed.
+
+**ECS_IMAGE_CLEANUP_INTERVAL**
+This variable specifies how frequently the automated image cleanup process should check for images to delete. The default is every 30 minutes but you can reduce this period to as low as 10 minutes to remove images more frequently.
+
+**ECS_IMAGE_MINIMUM_CLEANUP_AGE**
+This variable specifies the minimum amount of time between when an image was pulled and when it may become a candidate for removal. This is used to prevent cleaning up images that have just been pulled. The default is 1 hour.
+
+**ECS_NUM_IMAGES_DELETE_PER_CYCLE**
+This variable specifies how many images may be removed during a single cleanup cycle. The default is 5 and the minimum is 1.
+
+
 
 ## License
 
