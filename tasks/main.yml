@@ -62,9 +62,11 @@
     group: root
     mode: 0755
     backup: no
+  register: systemd_conf_file
 
 - name: Reload systemd configuration
   shell: systemctl daemon-reload
+  when: systemd_conf_file.changed
 
 - name: Start and enable the ecs container service
   service:
