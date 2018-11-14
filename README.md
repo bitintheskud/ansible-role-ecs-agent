@@ -32,6 +32,10 @@ See :
  
 * https://github.com/bitintheskud/ansible-role-docker-ce-centos.git
 
+## Caveats
+
+This role sets up the AWS ECS agent as recommended in the documentation, including adding iptables rules. However, bear in mind that this role will not handle saving the iptables rules for you (via `iptables-save` or other means). If you wish to save iptables rules to disk so they will survive a reboot and be present without an additional Ansible run, you should handle that outside of this role.
+
 ## Example Playbook
 
 ```yaml
